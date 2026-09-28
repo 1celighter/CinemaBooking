@@ -21,13 +21,13 @@ def MoviesCatalog() -> dict:
 
 class MovieSchema(BaseModel):
     MID: int = Field(ge=0)
-    MovieName: str = Field(ge=4, le=40)
-    MovieStudio: str = Field(ge=2, le=50)
+    MovieName: str = Field(min_length=4, max_length=40)
+    MovieStudio: str = Field(min_length=2, max_length=50)
     StudioEmail: EmailStr
-    MovieRating: int = Field(ge=0, le=10)
+    MetaCriticScore: int = Field(ge=0, le=10)
     UserScore: int = Field(ge=0, le=100)
     ContentRating: int = Field(ge=0, le=18)
-    MovieGenre: str = Field(ge=0, le=180)
+    MovieGenre: str = Field(min_length=0, max_length=180)
 
     model_config = ConfigDict(extra="forbid")
 
@@ -36,6 +36,7 @@ class MovieSchema(BaseModel):
     "/AddMovie",
     tags=["Catalog"],
     summary="If you need add a Movie to our catalog add this here with this endpoint",
+    status_code=201,
 )
 def AddMovie(AddMovie: MovieSchema) -> dict:
     Movies.append(
@@ -44,7 +45,7 @@ def AddMovie(AddMovie: MovieSchema) -> dict:
             "Movie Name": AddMovie.MovieName,
             "Movie Studio": AddMovie.MovieStudio,
             "Studio's Email": AddMovie.StudioEmail,
-            "Movie Rating": AddMovie.MovieRating,
+            "Movie Rating": AddMovie.MetaCriticScore,
             "User Score": AddMovie.UserScore,
             "Content Rating": AddMovie.ContentRating,
             "Movie Genre": AddMovie.MovieGenre,
