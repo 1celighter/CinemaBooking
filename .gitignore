@@ -5,3 +5,4 @@ howtodo.md
 __pychache__/
 **.pyc
 **/__pychache__
+.vscode
